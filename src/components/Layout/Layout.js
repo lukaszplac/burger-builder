@@ -1,14 +1,38 @@
-import React from 'react';
+import React, {Component} from 'react';
 import AuxComp from '../../hoc/AuxComp';
 import classes from './Layout.css';
+import Toolbar from '../Navigation/Toolbar/Toolbar';
+import SideDrawer from '../Navigation/SideDrawer/SideDrawer';
 
-const layout = (props) => (
-	<AuxComp>
-		<p>Toolbar, SideDrawer, Drawback</p>
-		<main className={classes.Content}>
-			{props.children}
-		</main>
-	</AuxComp>
-	);
+class Layout extends Component {
 
-export default layout;
+	state = {
+		showSideDrawer: false
+	}
+
+	sideDrawerClosedHandler = () => {
+		this.setState({showSideDrawer: false})
+	}
+
+	sideDrawerOpenHandler = () => {
+		this.setState((prevState) => { //ze wzgledu na asynchronicznosc setState nie mozna uzywac stanu w samej metodzie setState trzeba to zrobic poprzez arrow function
+			return ({showSideDrawer: !prevState.showSideDrawer});
+		});
+	}
+	
+	render (){
+		return (
+			<AuxComp>
+				<Toolbar openSideDrawer={this.sideDrawerOpenHandler}/>
+				<SideDrawer
+					open={this.state.showSideDrawer}
+					closed={this.sideDrawerClosedHandler}/>
+				<main className={classes.Content}>
+					{this.props.children}
+				</main>
+			</AuxComp>
+		);
+	}
+}
+
+export default Layout;
