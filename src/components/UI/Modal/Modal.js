@@ -7,7 +7,7 @@ class Modal extends Component {
 
     //dodane zeby polepszyc wydajnoc, modal nie bedzie sie updatowal jesli nie bedzie widoczny
     shouldComponentUpdate(nextProps, nextState) {
-        return (nextProps.show !== this.props.show);
+        return (nextProps.show !== this.props.show || nextProps.children !== this.props.children);
     }
 
     render() {
